@@ -104,7 +104,7 @@ class SettingsController extends ApiMutableModelControllerBase
     // Upstream
     public function searchupstreamAction()
     {
-        return $this->searchBase('upstream', array('description', 'serverentries'));
+        return $this->searchBase('upstream', array('description', 'serverentries', 'tls_enable', 'load_balancing_algorithm'));
     }
 
     public function getupstreamAction($uuid = null)
@@ -158,7 +158,26 @@ class SettingsController extends ApiMutableModelControllerBase
     // Location
     public function searchlocationAction()
     {
-        return $this->searchBase('location', array('description','urlpattern', 'path_prefix', 'matchtype', 'enable_secrules', 'force_https'));
+        $data = $this->searchBase('location', array(
+            'description','urlpattern', 'path_prefix', 'matchtype', 'upstream',
+            'enable_secrules', 'enable_learning_mode', 'force_https',
+            'xss_block_score', 'sqli_block_score', 'custom_policy'
+        ));
+
+        // Create "waf_status" column (enabled/disabled/learning)
+        foreach ($data['rows'] as &$row) {
+            if ($row['enable_secrules']) {
+                if ($row['enable_learning_mode']) {
+                    $row['waf_status'] = gettext('learning');
+                } else {
+                    $row['waf_status'] = gettext('enabled');
+                }
+            } else {
+                $row['waf_status'] = gettext('disabled');
+            }
+        }
+
+        return $data;
     }
 
     public function getlocationAction($uuid = null)
@@ -185,7 +204,7 @@ class SettingsController extends ApiMutableModelControllerBase
     // Custom Policy
     public function searchcustompolicyAction()
     {
-        return $this->searchBase('custom_policy', array('name', 'operator', 'value', 'action'));
+        return $this->searchBase('custom_policy', array('name', 'operator', 'value', 'action', 'naxsi_rules'));
     }
 
     public function getcustompolicyAction($uuid = null)
@@ -212,7 +231,10 @@ class SettingsController extends ApiMutableModelControllerBase
     // http server
     public function searchhttpserverAction()
     {
-        return $this->searchBase('http_server', array('servername', 'https_only', 'certificate', 'listen_http_port', 'listen_https_port'));
+        return $this->searchBase('http_server', array(
+            'servername', 'locations', 'root', 'https_only', 'certificate',
+            'listen_http_port', 'listen_https_port'
+        ));
     }
 
     public function gethttpserverAction($uuid = null)
@@ -266,7 +288,7 @@ class SettingsController extends ApiMutableModelControllerBase
     // naxsi rules
     public function searchnaxsiruleAction()
     {
-        return $this->searchBase('naxsi_rule', array('description', 'identifier', 'ruletype', 'message'));
+        return $this->searchBase('naxsi_rule', array('description', 'identifier', 'ruletype', 'match_type', 'score', 'match_value', 'message'));
     }
 
     public function getnaxsiruleAction($uuid = null)
@@ -372,6 +394,42 @@ class SettingsController extends ApiMutableModelControllerBase
     public function setlimit_zoneAction($uuid)
     {
         return $this->setBase('limit_zone', 'limit_zone', $uuid);
+    }
+
+    // Error pages
+    public function searcherrorpageAction()
+    {
+        return $this->searchBase('errorpage', array('name', 'statuscodes', 'response'));
+    }
+
+    public function geterrorpageAction($uuid = null)
+    {
+        $this->sessionClose();
+        $data = $this->getBase('errorpage', 'errorpage', $uuid);
+        // Decode base64 encoded page content
+        $data['errorpage']['pagecontent'] = base64_decode($data['errorpage']['pagecontent']);
+        return $data;
+    }
+
+    public function adderrorpageAction()
+    {
+        return $this->addBase('errorpage', 'errorpage', array(
+            // Encode page content with base64
+            'pagecontent' => base64_encode($this->request->getPost('errorpage')['pagecontent'])
+        ));
+    }
+
+    public function delerrorpageAction($uuid)
+    {
+        return $this->delBase('errorpage', $uuid);
+    }
+
+    public function seterrorpageAction($uuid)
+    {
+        return $this->setBase('errorpage', 'errorpage', $uuid, array(
+            // Encode page content with base64
+            'pagecontent' => base64_encode($this->request->getPost('errorpage')['pagecontent'])
+        ));
     }
 
     // TLS fingerprints for MITM detection
@@ -593,7 +651,6 @@ class SettingsController extends ApiMutableModelControllerBase
     /**
      * @param null $uuid the uuid which should get cleared before
      * @throws \ReflectionException if the model was not found
-     * @throws \Phalcon\Validation\Exception on validation errors
      */
     private function regenerate_hostname_map($uuid = null)
     {
@@ -622,7 +679,6 @@ class SettingsController extends ApiMutableModelControllerBase
     /**
      * @param null $uuid the uuid which should get cleared before
      * @throws \ReflectionException if the model was not found
-     * @throws \Phalcon\Validation\Exception on validation errors
      */
     private function regenerate_ipacl($uuid = null)
     {
@@ -651,7 +707,6 @@ class SettingsController extends ApiMutableModelControllerBase
     /**
      * @param $uuids array list of UUIDs
      * @param $path string the model prefix from the element to delete
-     * @throws \Phalcon\Validation\Exception
      */
     private function delete_uuids($uuids, $path): void
     {
