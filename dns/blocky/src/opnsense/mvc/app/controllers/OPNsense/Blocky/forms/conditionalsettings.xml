@@ -1,0 +1,8 @@
+<form>
+    <field>
+        <id>blocky.general.conditionalFallback</id>
+        <label>Fallback to upstream</label>
+        <type>checkbox</type>
+        <help>If a domain override's resolver returns an empty or NXDOMAIN answer, retry the query against the normal upstream resolvers instead of returning the empty result.</help>
+    </field>
+</form>

@@ -1,0 +1,15 @@
+<form>
+    <field>
+        <id>blocky.general.customTTL</id>
+        <label>Custom TTL</label>
+        <type>text</type>
+        <hint>1h</hint>
+        <help>TTL returned for answers coming from the host overrides below.</help>
+    </field>
+    <field>
+        <id>blocky.general.filterUnmappedTypes</id>
+        <label>Filter unmapped types</label>
+        <type>checkbox</type>
+        <help>For a mapped name, return an empty answer for record types you have not provided (e.g. no AAAA when only an IPv4 address is mapped) instead of forwarding the query upstream.</help>
+    </field>
+</form>

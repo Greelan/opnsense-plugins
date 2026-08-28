@@ -1,0 +1,34 @@
+<form>
+    <field>
+        <id>upstream.enabled</id>
+        <label>Enabled</label>
+        <type>checkbox</type>
+        <help>Enable this upstream resolver.</help>
+        <grid_view>
+            <width>6em</width>
+            <type>boolean</type>
+            <formatter>rowtoggle</formatter>
+        </grid_view>
+    </field>
+    <field>
+        <id>upstream.group</id>
+        <label>Group</label>
+        <type>text</type>
+        <help>Resolver group this upstream belongs to. Use "default" unless you assign specific clients to their own groups.</help>
+        <grid_view/>
+    </field>
+    <field>
+        <id>upstream.server</id>
+        <label>Resolver</label>
+        <type>text</type>
+        <help>Upstream resolver, e.g. 1.1.1.1, 8.8.8.8:53, tcp-tls:1.1.1.1:853 or https://dns.google/dns-query.</help>
+        <grid_view/>
+    </field>
+    <field>
+        <id>upstream.description</id>
+        <label>Description</label>
+        <type>text</type>
+        <help>Optional description for your reference.</help>
+        <grid_view/>
+    </field>
+</form>

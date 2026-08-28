@@ -1,0 +1,12 @@
+Blocky is a fast and lightweight DNS proxy and ad-blocker for local
+networks, written in Go. It blocks queries against configurable deny
+and allow lists (per client group), forwards to one or more upstream
+resolvers with selectable strategies, supports conditional forwarding,
+custom DNS mappings, response caching with prefetching and optional
+Prometheus metrics.
+
+Note: Blocky answers on the DNS port (53 by default). When running it
+on port 53 you must either disable the built-in Unbound/Dnsmasq
+resolver or run Blocky on an alternate port and forward to it.
+
+WWW: https://0xerr0r.github.io/blocky/

@@ -1,0 +1,158 @@
+<form>
+    <field>
+        <type>header</type>
+        <label>DNSSEC validation</label>
+    </field>
+    <field>
+        <id>blocky.dnssec.validate</id>
+        <label>Validate DNSSEC</label>
+        <type>checkbox</type>
+        <help>Perform DNSSEC validation on responses and return SERVFAIL for records that fail validation. Upstream resolvers must return DNSSEC records.</help>
+    </field>
+    <field>
+        <id>blocky.dnssec.maxChainDepth</id>
+        <label>Max chain depth</label>
+        <type>text</type>
+        <hint>10</hint>
+        <advanced>true</advanced>
+        <help>Maximum delegation chain depth followed during validation.</help>
+    </field>
+    <field>
+        <id>blocky.dnssec.cacheExpirationHours</id>
+        <label>Trust cache expiration (hours)</label>
+        <type>text</type>
+        <hint>1</hint>
+        <advanced>true</advanced>
+        <help>How long validated DNSKEY/DS records are cached.</help>
+    </field>
+    <field>
+        <id>blocky.dnssec.maxUpstreamQueries</id>
+        <label>Max upstream queries</label>
+        <type>text</type>
+        <hint>30</hint>
+        <advanced>true</advanced>
+        <help>Maximum number of upstream queries used to validate a single response.</help>
+    </field>
+    <field>
+        <id>blocky.dnssec.maxNSEC3Iterations</id>
+        <label>Max NSEC3 iterations</label>
+        <type>text</type>
+        <hint>150</hint>
+        <advanced>true</advanced>
+        <help>Maximum NSEC3 hash iterations accepted (protects against CPU exhaustion).</help>
+    </field>
+    <field>
+        <id>blocky.dnssec.clockSkewToleranceSec</id>
+        <label>Clock skew tolerance (seconds)</label>
+        <type>text</type>
+        <hint>3600</hint>
+        <advanced>true</advanced>
+        <help>Tolerance applied to RRSIG inception/expiration times to allow for clock differences.</help>
+    </field>
+    <field>
+        <id>blocky.dnssec.trustAnchors</id>
+        <label>Custom trust anchors</label>
+        <type>select_multiple</type>
+        <style>tokenize</style>
+        <allownew>true</allownew>
+        <advanced>true</advanced>
+        <hint>DNSKEY or DS record</hint>
+        <help>Custom DNSKEY/DS records (DNS record format) that replace the built-in IANA root trust anchors. Leave empty to use the defaults; only override for private zones or lab testing.</help>
+    </field>
+    <field>
+        <type>header</type>
+        <label>DNS rebinding protection</label>
+    </field>
+    <field>
+        <id>blocky.rebindingProtection.enable</id>
+        <label>Enable</label>
+        <type>checkbox</type>
+        <help>Drop answers from the general upstreams that contain private, loopback, link-local or unspecified IPs (e.g. 127.0.0.1, 192.168.x.x), which are a hallmark of DNS rebinding attacks. Use Allowed domains for split-horizon names that legitimately resolve to private addresses.</help>
+    </field>
+    <field>
+        <id>blocky.rebindingProtection.allowedDomains</id>
+        <label>Allowed domains</label>
+        <type>select_multiple</type>
+        <style>tokenize</style>
+        <allownew>true</allownew>
+        <hint>e.g. intranet.example.com</hint>
+        <help>Domains exempt from rebinding protection (they may legitimately resolve to private addresses). Type a domain and press Enter to add it.</help>
+    </field>
+    <field>
+        <type>header</type>
+        <label>Rate limiting</label>
+    </field>
+    <field>
+        <id>blocky.rateLimit.enable</id>
+        <label>Enable</label>
+        <type>checkbox</type>
+        <help>Limit the number of queries accepted per client per second. Intended for misbehaving clients and low-volume amplification abuse, not as a DDoS defense (use the firewall for that). Queries over the limit are dropped silently.</help>
+    </field>
+    <field>
+        <id>blocky.rateLimit.rate</id>
+        <label>Queries per second</label>
+        <type>text</type>
+        <hint>0</hint>
+        <help>Sustained queries per second allowed per client. 0 disables rate limiting.</help>
+    </field>
+    <field>
+        <id>blocky.rateLimit.burst</id>
+        <label>Burst</label>
+        <type>text</type>
+        <hint>0</hint>
+        <help>Token bucket capacity: the maximum number of queries a previously idle client may fire at once before being throttled to the sustained rate. Must be at least the rate; 0 falls back to rate × 2.</help>
+    </field>
+    <field>
+        <id>blocky.rateLimit.ipv4Prefix</id>
+        <label>IPv4 prefix length</label>
+        <type>text</type>
+        <hint>32</hint>
+        <advanced>true</advanced>
+        <help>Clients are grouped into IPv4 subnets of this prefix length for rate-limit accounting (32 = per address).</help>
+    </field>
+    <field>
+        <id>blocky.rateLimit.ipv6Prefix</id>
+        <label>IPv6 prefix length</label>
+        <type>text</type>
+        <hint>64</hint>
+        <advanced>true</advanced>
+        <help>Clients are grouped into IPv6 subnets of this prefix length for rate-limit accounting.</help>
+    </field>
+    <field>
+        <id>blocky.rateLimit.allowlist</id>
+        <label>Exempt clients</label>
+        <type>select_multiple</type>
+        <style>tokenize</style>
+        <allownew>true</allownew>
+        <hint>e.g. 10.0.0.0/8</hint>
+        <help>Client IPs or CIDR ranges exempt from rate limiting. Type a value and press Enter to add it.</help>
+    </field>
+    <field>
+        <type>header</type>
+        <label>Other protections</label>
+    </field>
+    <field>
+        <id>blocky.fqdnOnly.enable</id>
+        <label>FQDN only</label>
+        <type>checkbox</type>
+        <help>Refuse queries for non-fully-qualified names (names without a dot), reducing noise from local lookups.</help>
+    </field>
+    <field>
+        <id>blocky.ede.enable</id>
+        <label>Extended DNS Errors</label>
+        <type>checkbox</type>
+        <help>Attach Extended DNS Error (EDE, RFC 8914) codes to responses, giving clients a machine-readable reason when a query is blocked or fails.</help>
+    </field>
+    <field>
+        <id>blocky.specialUseDomains.enable</id>
+        <label>Special-use domains</label>
+        <type>checkbox</type>
+        <help>Handle special-use domain names (RFC 6761) such as .invalid and .test locally instead of forwarding them upstream.</help>
+    </field>
+    <field>
+        <id>blocky.specialUseDomains.rfc6762</id>
+        <label>Block private-use TLDs</label>
+        <type>checkbox</type>
+        <help>Block the recommended private-use top-level domains listed in RFC 6762 Appendix G (e.g. .corp, .home, .lan, .internal) so they are not leaked to upstream resolvers.</help>
+    </field>
+</form>

@@ -1,0 +1,51 @@
+<form>
+    <field>
+        <id>blocky.queryLog.type</id>
+        <label>Log type</label>
+        <type>dropdown</type>
+        <help>Where query logs are written. Disabled turns logging off; Console writes to the Blocky log; Text/CSV write files to the target directory; the database options write to an external DB using the connection string in Target.</help>
+    </field>
+    <field>
+        <id>blocky.queryLog.target</id>
+        <label>Target</label>
+        <type>text</type>
+        <help>Directory for file logging (e.g. /var/log/blocky), or the database connection string for the database options. Not used for Console.</help>
+    </field>
+    <field>
+        <id>blocky.queryLog.logRetentionDays</id>
+        <label>Retention (days)</label>
+        <type>text</type>
+        <hint>0</hint>
+        <help>Delete query logs older than this many days. 0 keeps them indefinitely.</help>
+    </field>
+    <field>
+        <id>blocky.queryLog.fields</id>
+        <label>Logged fields</label>
+        <type>select_multiple</type>
+        <help>Which fields to record per query. Leave empty to log all fields.</help>
+    </field>
+    <field>
+        <id>blocky.queryLog.flushInterval</id>
+        <label>Flush interval</label>
+        <type>text</type>
+        <hint>30s</hint>
+        <advanced>true</advanced>
+        <help>How often buffered entries are written to the target.</help>
+    </field>
+    <field>
+        <id>blocky.queryLog.creationAttempts</id>
+        <label>Creation attempts</label>
+        <type>text</type>
+        <hint>3</hint>
+        <advanced>true</advanced>
+        <help>Number of attempts to open the log target (file or database) before giving up.</help>
+    </field>
+    <field>
+        <id>blocky.queryLog.creationCooldown</id>
+        <label>Creation cooldown</label>
+        <type>text</type>
+        <hint>2s</hint>
+        <advanced>true</advanced>
+        <help>Wait time between attempts to open the log target.</help>
+    </field>
+</form>

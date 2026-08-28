@@ -1,0 +1,16 @@
+<menu>
+    <Services>
+        <Blocky VisibleName="Blocky DNS" cssClass="fa fa-shield-alt fa-fw">
+            <General order="10" url="/ui/blocky/settings/general"/>
+            <Upstreams VisibleName="Upstream Servers" order="20" url="/ui/blocky/settings/upstreams"/>
+            <Conditional VisibleName="Domain Overrides" order="30" url="/ui/blocky/settings/conditional"/>
+            <CustomDNS VisibleName="Host Overrides" order="40" url="/ui/blocky/settings/customdns"/>
+            <Filtering VisibleName="Filter Lists" order="50" url="/ui/blocky/settings/filterlists"/>
+            <Schedules VisibleName="Schedules" order="55" url="/ui/blocky/settings/schedules"/>
+            <ClientGroups VisibleName="Client Groups" order="60" url="/ui/blocky/settings/clientgroups"/>
+            <Security VisibleName="Security" order="70" url="/ui/blocky/settings/security"/>
+            <QueryLog VisibleName="Query Log" order="80" url="/ui/blocky/settings/querylog"/>
+            <Advanced VisibleName="Advanced" order="90" url="/ui/blocky/settings/advanced"/>
+        </Blocky>
+    </Services>
+</menu>

@@ -1,0 +1,69 @@
+{#
+ # Copyright (C) 2026 Greelan
+ # All rights reserved.
+ #
+ # Redistribution and use in source and binary forms, with or without modification,
+ # are permitted provided that the following conditions are met:
+ #
+ # 1. Redistributions of source code must retain the above copyright notice,
+ #    this list of conditions and the following disclaimer.
+ #
+ # 2. Redistributions in binary form must reproduce the above copyright notice,
+ #    this list of conditions and the following disclaimer in the documentation
+ #    and/or other materials provided with the distribution.
+ #
+ # THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ # INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+ # AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ # AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+ # OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ # SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ # INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ # POSSIBILITY OF SUCH DAMAGE.
+ #}
+
+<script>
+    $( document ).ready(function() {
+        mapDataToFormUI({'frm_upstreamsettings':"/api/blocky/settings/get"}).done(function(){
+            formatTokenizersUI();
+            $('.selectpicker').selectpicker('refresh');
+            updateServiceControlUI('blocky');
+        });
+
+        $("#{{formGridUpstream['table_id']}}").UIBootgrid({
+            search:'/api/blocky/settings/searchUpstream/',
+            get:'/api/blocky/settings/getUpstream/',
+            set:'/api/blocky/settings/setUpstream/',
+            add:'/api/blocky/settings/addUpstream/',
+            del:'/api/blocky/settings/delUpstream/',
+            toggle:'/api/blocky/settings/toggleUpstream/'
+        });
+
+        $("#reconfigureAct").SimpleActionButton({
+            onPreAction: function() {
+                const dfObj = new $.Deferred();
+                saveFormToEndpoint("/api/blocky/settings/set", 'frm_upstreamsettings', function () { dfObj.resolve(); }, true, function () { dfObj.reject(); });
+                return dfObj;
+            },
+            onAction: function(data, status) {
+                updateServiceControlUI('blocky');
+            }
+        });
+    });
+</script>
+
+<div class="content-box __mb">
+    {{ partial('layout_partials/base_bootgrid_table', formGridUpstream)}}
+    <div style="padding: 10px;">
+        {{ lang._('Upstream servers are the resolvers Blocky forwards queries to. Add at least one in the "default" group; assign servers to other groups when you want specific clients (see Client Groups) to use their own resolvers. Servers may be plain IPs, or DoT/DoH endpoints such as tcp-tls:1.1.1.1:853 or https://dns.google/dns-query.') }}
+    </div>
+</div>
+
+<div class="content-box">
+    {{ partial("layout_partials/base_form",['fields':upstreamsForm,'id':'frm_upstreamsettings'])}}
+</div>
+
+{{ partial('layout_partials/base_apply_button', {'data_endpoint': '/api/blocky/service/reconfigure', 'data_service_widget': 'blocky'}) }}
+{{ partial("layout_partials/base_dialog",['fields':formDialogUpstream,'id':formGridUpstream['edit_dialog_id'],'label':lang._('Edit upstream server')])}}

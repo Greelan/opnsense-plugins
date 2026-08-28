@@ -1,0 +1,179 @@
+<form>
+    <field>
+        <type>header</type>
+        <label>Service</label>
+    </field>
+    <field>
+        <id>blocky.general.enabled</id>
+        <label>Enable</label>
+        <type>checkbox</type>
+        <help>Enable the Blocky DNS proxy. Blocky answers on the DNS port below; when using port 53 make sure the built-in Unbound or Dnsmasq resolver is disabled or listening elsewhere.</help>
+    </field>
+    <field>
+        <id>blocky.general.dnsPort</id>
+        <label>DNS port</label>
+        <type>text</type>
+        <hint>53</hint>
+        <help>Port used to answer DNS queries (TCP and UDP).</help>
+    </field>
+    <field>
+        <id>blocky.general.httpPort</id>
+        <label>HTTP port</label>
+        <type>text</type>
+        <hint>4000</hint>
+        <help>Port used for the query REST API and the Prometheus metrics endpoint. Set to 0 to disable.</help>
+    </field>
+    <field>
+        <id>blocky.general.logLevel</id>
+        <label>Log level</label>
+        <type>dropdown</type>
+        <help>Verbosity of the Blocky log (written to /var/log/blocky.log).</help>
+    </field>
+    <field>
+        <id>blocky.general.logTimestamp</id>
+        <label>Log timestamps</label>
+        <type>checkbox</type>
+        <help>Include timestamps in log output.</help>
+    </field>
+    <field>
+        <id>blocky.general.logPrivacy</id>
+        <label>Privacy log mode</label>
+        <type>checkbox</type>
+        <help>Obfuscate sensitive data (queried domains, responses) in the log by masking alphanumeric characters.</help>
+    </field>
+    <field>
+        <id>blocky.general.connectIPVersion</id>
+        <label>Connect IP version</label>
+        <type>dropdown</type>
+        <help>IP version used for outgoing connections to upstreams and list downloads: dual (both), v4 (IPv4 only) or v6 (IPv6 only).</help>
+    </field>
+    <field>
+        <type>header</type>
+        <label>Encrypted DNS (DoT / DoH)</label>
+        <advanced>true</advanced>
+    </field>
+    <field>
+        <id>blocky.general.tlsPort</id>
+        <label>DoT port</label>
+        <type>text</type>
+        <advanced>true</advanced>
+        <help>Port for the DNS-over-TLS listener (e.g. 853). Leave empty to disable DoT.</help>
+    </field>
+    <field>
+        <id>blocky.general.httpsPort</id>
+        <label>DoH / HTTPS port</label>
+        <type>text</type>
+        <advanced>true</advanced>
+        <help>Port for the HTTPS listener serving DNS-over-HTTPS, metrics and the REST API (e.g. 443). Leave empty to disable.</help>
+    </field>
+    <field>
+        <id>blocky.general.dohPath</id>
+        <label>DoH URL path</label>
+        <type>text</type>
+        <hint>/dns-query</hint>
+        <advanced>true</advanced>
+        <help>URL path for DoH queries.</help>
+    </field>
+    <field>
+        <id>blocky.general.minTlsServeVersion</id>
+        <label>Minimum TLS version</label>
+        <type>text</type>
+        <hint>1.3</hint>
+        <advanced>true</advanced>
+        <help>Minimum TLS version the DoT/DoH server will accept: 1.2 or 1.3.</help>
+    </field>
+    <field>
+        <id>blocky.general.certFile</id>
+        <label>Certificate file</label>
+        <type>text</type>
+        <advanced>true</advanced>
+        <help>Path to the TLS certificate file for DoT/DoH. If empty, Blocky generates a self-signed certificate.</help>
+    </field>
+    <field>
+        <id>blocky.general.keyFile</id>
+        <label>Key file</label>
+        <type>text</type>
+        <advanced>true</advanced>
+        <help>Path to the TLS private key file for DoT/DoH.</help>
+    </field>
+    <field>
+        <id>blocky.general.http3</id>
+        <label>Enable HTTP/3</label>
+        <type>checkbox</type>
+        <advanced>true</advanced>
+        <help>Serve DNS-over-HTTPS over HTTP/3 (RFC 9114) in addition to HTTP/2.</help>
+    </field>
+    <field>
+        <type>header</type>
+        <label>Caching</label>
+    </field>
+    <field>
+        <id>blocky.general.cacheMinTime</id>
+        <label>Minimum cache time</label>
+        <type>text</type>
+        <hint>5m</hint>
+        <help>Entries are cached at least this long, even if the record TTL is lower.</help>
+    </field>
+    <field>
+        <id>blocky.general.cacheMaxTime</id>
+        <label>Maximum cache time</label>
+        <type>text</type>
+        <hint>30m</hint>
+        <help>Entries are cached at most this long. Use -1 to disable caching.</help>
+    </field>
+    <field>
+        <id>blocky.general.cacheTimeNegative</id>
+        <label>Negative cache time</label>
+        <type>text</type>
+        <hint>30m</hint>
+        <help>How long negative results (NXDOMAIN / empty answers) are cached. Use -1 to disable negative caching.</help>
+    </field>
+    <field>
+        <id>blocky.general.maxItemsCount</id>
+        <label>Max cache entries</label>
+        <type>text</type>
+        <hint>0</hint>
+        <advanced>true</advanced>
+        <help>Soft limit on the number of cached responses (useful on low-memory systems). 0 means unlimited.</help>
+    </field>
+    <field>
+        <id>blocky.general.prefetching</id>
+        <label>Prefetching</label>
+        <type>checkbox</type>
+        <help>Prefetch popular queries (by default, names queried more than 5 times in a 2-hour window) shortly before they expire so cached answers stay warm. Improves response time but significantly increases upstream traffic.</help>
+    </field>
+    <field>
+        <id>blocky.general.prefetchExpires</id>
+        <label>Prefetch window</label>
+        <type>text</type>
+        <hint>2h</hint>
+        <advanced>true</advanced>
+        <help>Time window used to track how often a query is seen when deciding whether to prefetch it.</help>
+    </field>
+    <field>
+        <id>blocky.general.prefetchThreshold</id>
+        <label>Prefetch threshold</label>
+        <type>text</type>
+        <hint>5</hint>
+        <advanced>true</advanced>
+        <help>Number of times a name must be queried within the window before it is prefetched.</help>
+    </field>
+    <field>
+        <id>blocky.general.prefetchMaxItemsCount</id>
+        <label>Max prefetch entries</label>
+        <type>text</type>
+        <hint>0</hint>
+        <advanced>true</advanced>
+        <help>Soft limit on the number of domains tracked for prefetching. 0 means unlimited.</help>
+    </field>
+    <field>
+        <type>header</type>
+        <label>Metrics</label>
+    </field>
+    <field>
+        <id>blocky.general.prometheus</id>
+        <label>Prometheus metrics</label>
+        <type>checkbox</type>
+        <help>Expose Prometheus metrics on the HTTP port at /metrics.</help>
+    </field>
+</form>

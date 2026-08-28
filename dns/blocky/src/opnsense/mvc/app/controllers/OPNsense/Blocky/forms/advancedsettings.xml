@@ -1,0 +1,211 @@
+<form>
+    <field>
+        <type>header</type>
+        <label>Query type filtering</label>
+    </field>
+    <field>
+        <id>blocky.filtering.queryTypes</id>
+        <label>Drop query types</label>
+        <type>select_multiple</type>
+        <style>tokenize</style>
+        <allownew>true</allownew>
+        <hint>e.g. AAAA</hint>
+        <help>Record types Blocky answers with an empty response instead of forwarding, e.g. AAAA to suppress IPv6 answers on an IPv4-only network. Type a value and press Enter to add it.</help>
+    </field>
+    <field>
+        <type>header</type>
+        <label>Hosts file</label>
+    </field>
+    <field>
+        <id>blocky.hostsFile.sources</id>
+        <label>Sources</label>
+        <type>select_multiple</type>
+        <style>tokenize</style>
+        <allownew>true</allownew>
+        <hint>/etc/hosts or https://...</hint>
+        <help>Hosts files used for name resolution: local paths (e.g. /etc/hosts) or URLs. Entries are answered directly by Blocky. Type a value and press Enter to add it.</help>
+    </field>
+    <field>
+        <id>blocky.hostsFile.hostsTTL</id>
+        <label>Hosts TTL</label>
+        <type>text</type>
+        <hint>1h</hint>
+        <help>TTL returned for answers coming from the hosts files.</help>
+    </field>
+    <field>
+        <id>blocky.hostsFile.filterLoopback</id>
+        <label>Filter loopback</label>
+        <type>checkbox</type>
+        <help>Ignore loopback entries (127.0.0.1 / ::1) in the hosts files.</help>
+    </field>
+    <field>
+        <id>blocky.hostsFile.refreshPeriod</id>
+        <label>Refresh period</label>
+        <type>text</type>
+        <hint>4h</hint>
+        <advanced>true</advanced>
+        <help>Interval at which downloaded hosts files are refreshed. Set to 0 to disable periodic refresh.</help>
+    </field>
+    <field>
+        <id>blocky.hostsFile.loadingStrategy</id>
+        <label>Loading strategy</label>
+        <type>dropdown</type>
+        <advanced>true</advanced>
+        <help>How hosts files load at startup: blocking waits, failOnError aborts on failure, fast loads in the background.</help>
+    </field>
+    <field>
+        <id>blocky.hostsFile.maxErrorsPerSource</id>
+        <label>Max errors per source</label>
+        <type>text</type>
+        <hint>5</hint>
+        <advanced>true</advanced>
+        <help>Parse errors tolerated in a single hosts file before it is treated as invalid. Use -1 to disable the limit.</help>
+    </field>
+    <field>
+        <id>blocky.hostsFile.concurrency</id>
+        <label>Load concurrency</label>
+        <type>text</type>
+        <hint>4</hint>
+        <advanced>true</advanced>
+        <help>Maximum number of hosts files processed in parallel.</help>
+    </field>
+    <field>
+        <id>blocky.hostsFile.downloadTimeout</id>
+        <label>Download timeout</label>
+        <type>text</type>
+        <hint>5s</hint>
+        <advanced>true</advanced>
+        <help>Timeout for downloading each hosts file URL.</help>
+    </field>
+    <field>
+        <id>blocky.hostsFile.downloadAttempts</id>
+        <label>Download attempts</label>
+        <type>text</type>
+        <hint>3</hint>
+        <advanced>true</advanced>
+        <help>Number of times to retry a failed hosts file download.</help>
+    </field>
+    <field>
+        <id>blocky.hostsFile.downloadCooldown</id>
+        <label>Download cooldown</label>
+        <type>text</type>
+        <hint>500ms</hint>
+        <advanced>true</advanced>
+        <help>Wait time between failed hosts file download attempts.</help>
+    </field>
+    <field>
+        <type>header</type>
+        <label>EDNS Client Subnet (ECS)</label>
+    </field>
+    <field>
+        <id>blocky.ecs.useAsClient</id>
+        <label>Use ECS as client</label>
+        <type>checkbox</type>
+        <help>When a query carries an EDNS Client Subnet option, use that address (instead of the sender's) for client-group matching.</help>
+    </field>
+    <field>
+        <id>blocky.ecs.forward</id>
+        <label>Forward ECS</label>
+        <type>checkbox</type>
+        <help>Forward the EDNS Client Subnet option to upstream resolvers.</help>
+    </field>
+    <field>
+        <id>blocky.ecs.ipv4Mask</id>
+        <label>IPv4 mask</label>
+        <type>text</type>
+        <hint>0</hint>
+        <advanced>true</advanced>
+        <help>Add an ECS option to IPv4 queries with this prefix length (0 disables).</help>
+    </field>
+    <field>
+        <id>blocky.ecs.ipv6Mask</id>
+        <label>IPv6 mask</label>
+        <type>text</type>
+        <hint>0</hint>
+        <advanced>true</advanced>
+        <help>Add an ECS option to IPv6 queries with this prefix length (0 disables).</help>
+    </field>
+    <field>
+        <type>header</type>
+        <label>DNS64</label>
+    </field>
+    <field>
+        <id>blocky.dns64.enable</id>
+        <label>Enable DNS64</label>
+        <type>checkbox</type>
+        <help>Synthesize AAAA records from A records for IPv6-only clients behind a NAT64 gateway. Do not enable if the ECS/query-type filter above drops AAAA, as those queries are filtered before DNS64 can act on them.</help>
+    </field>
+    <field>
+        <id>blocky.dns64.prefix</id>
+        <label>NAT64 prefixes</label>
+        <type>select_multiple</type>
+        <style>tokenize</style>
+        <allownew>true</allownew>
+        <hint>e.g. 64:ff9b::/96</hint>
+        <help>IPv6 prefix(es) used to synthesize AAAA records. The well-known prefix is 64:ff9b::/96. Valid lengths: /32, /40, /48, /56, /64, /96. Type a value and press Enter to add it.</help>
+    </field>
+    <field>
+        <id>blocky.dns64.exclusionSet</id>
+        <label>Exclusion set</label>
+        <type>select_multiple</type>
+        <style>tokenize</style>
+        <allownew>true</allownew>
+        <advanced>true</advanced>
+        <hint>e.g. ::1/128</hint>
+        <help>IPv6 ranges for which DNS64 will NOT synthesize when the response already contains AAAA records outside this set. Leave empty to use the recommended defaults. Type a value and press Enter to add it.</help>
+    </field>
+    <field>
+        <type>header</type>
+        <label>Redis (shared cache)</label>
+    </field>
+    <field>
+        <id>blocky.redis.address</id>
+        <label>Address</label>
+        <type>text</type>
+        <help>Redis server as host:port. Enables a shared cache and client-name lookups across multiple Blocky instances. Leave empty to disable Redis.</help>
+    </field>
+    <field>
+        <id>blocky.redis.username</id>
+        <label>Username</label>
+        <type>text</type>
+        <advanced>true</advanced>
+        <help>Redis username (ACL), if required.</help>
+    </field>
+    <field>
+        <id>blocky.redis.password</id>
+        <label>Password</label>
+        <type>password</type>
+        <help>Redis password, if required.</help>
+    </field>
+    <field>
+        <id>blocky.redis.database</id>
+        <label>Database</label>
+        <type>text</type>
+        <hint>0</hint>
+        <advanced>true</advanced>
+        <help>Redis database index.</help>
+    </field>
+    <field>
+        <id>blocky.redis.required</id>
+        <label>Required</label>
+        <type>checkbox</type>
+        <advanced>true</advanced>
+        <help>If enabled, Blocky refuses to start when the Redis connection cannot be established.</help>
+    </field>
+    <field>
+        <id>blocky.redis.connectionAttempts</id>
+        <label>Connection attempts</label>
+        <type>text</type>
+        <hint>3</hint>
+        <advanced>true</advanced>
+        <help>Number of attempts to connect to Redis before giving up.</help>
+    </field>
+    <field>
+        <id>blocky.redis.connectionCooldown</id>
+        <label>Connection cooldown</label>
+        <type>text</type>
+        <hint>1s</hint>
+        <advanced>true</advanced>
+        <help>Wait time between Redis connection attempts.</help>
+    </field>
+</form>

@@ -1,0 +1,34 @@
+<form>
+    <field>
+        <id>clientgroup.enabled</id>
+        <label>Enabled</label>
+        <type>checkbox</type>
+        <help>Enable this client group mapping.</help>
+        <grid_view>
+            <width>6em</width>
+            <type>boolean</type>
+            <formatter>rowtoggle</formatter>
+        </grid_view>
+    </field>
+    <field>
+        <id>clientgroup.client</id>
+        <label>Client</label>
+        <type>text</type>
+        <help>Client this mapping applies to: an IP address, CIDR, resolved client name or wildcard. Use "default" to apply to every client.</help>
+        <grid_view/>
+    </field>
+    <field>
+        <id>clientgroup.groups</id>
+        <label>Groups</label>
+        <type>text</type>
+        <help>Comma separated list of blocking groups applied to this client (must match the groups used by your deny lists).</help>
+        <grid_view/>
+    </field>
+    <field>
+        <id>clientgroup.description</id>
+        <label>Description</label>
+        <type>text</type>
+        <help>Optional description for your reference.</help>
+        <grid_view/>
+    </field>
+</form>

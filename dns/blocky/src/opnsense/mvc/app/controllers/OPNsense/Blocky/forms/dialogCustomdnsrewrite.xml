@@ -1,0 +1,34 @@
+<form>
+    <field>
+        <id>customdnsrewrite.enabled</id>
+        <label>Enabled</label>
+        <type>checkbox</type>
+        <help>Enable this rewrite.</help>
+        <grid_view>
+            <width>6em</width>
+            <type>boolean</type>
+            <formatter>rowtoggle</formatter>
+        </grid_view>
+    </field>
+    <field>
+        <id>customdnsrewrite.fromDomain</id>
+        <label>From</label>
+        <type>text</type>
+        <help>Domain in the query to replace, including sub-domains (e.g. example.com).</help>
+        <grid_view/>
+    </field>
+    <field>
+        <id>customdnsrewrite.toDomain</id>
+        <label>To</label>
+        <type>text</type>
+        <help>Replacement domain looked up in the host overrides above (e.g. printer.lan).</help>
+        <grid_view/>
+    </field>
+    <field>
+        <id>customdnsrewrite.description</id>
+        <label>Description</label>
+        <type>text</type>
+        <help>Optional description for your reference.</help>
+        <grid_view/>
+    </field>
+</form>

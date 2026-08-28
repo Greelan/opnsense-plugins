@@ -1,0 +1,17 @@
+<form>
+    <field>
+        <id>blocky.general.clientLookupUpstream</id>
+        <label>Client name resolver</label>
+        <type>text</type>
+        <help>Resolver (IP address) used to look up client host names via reverse DNS, so client groups and logs can match on names instead of IPs. Leave empty to disable name lookups.</help>
+    </field>
+    <field>
+        <id>blocky.general.clientLookupOrder</id>
+        <label>Single name order</label>
+        <type>select_multiple</type>
+        <style>tokenize</style>
+        <allownew>true</allownew>
+        <hint>e.g. 2</hint>
+        <help>When reverse DNS returns multiple names for a client, the 1-based index order in which to prefer them (e.g. 2 then 1). Type a value and press Enter to add it.</help>
+    </field>
+</form>

@@ -1,0 +1,34 @@
+<form>
+    <field>
+        <id>conditional.enabled</id>
+        <label>Enabled</label>
+        <type>checkbox</type>
+        <help>Enable this domain override.</help>
+        <grid_view>
+            <width>6em</width>
+            <type>boolean</type>
+            <formatter>rowtoggle</formatter>
+        </grid_view>
+    </field>
+    <field>
+        <id>conditional.domain</id>
+        <label>Domain</label>
+        <type>text</type>
+        <help>Domain whose queries should be forwarded to a specific resolver, e.g. fritz.box or lan.</help>
+        <grid_view/>
+    </field>
+    <field>
+        <id>conditional.resolver</id>
+        <label>Resolver</label>
+        <type>text</type>
+        <help>Upstream resolver for this domain, e.g. 192.168.1.1.</help>
+        <grid_view/>
+    </field>
+    <field>
+        <id>conditional.description</id>
+        <label>Description</label>
+        <type>text</type>
+        <help>Optional description for your reference.</help>
+        <grid_view/>
+    </field>
+</form>

@@ -1,0 +1,34 @@
+<form>
+    <field>
+        <id>denylist.enabled</id>
+        <label>Enabled</label>
+        <type>checkbox</type>
+        <help>Enable this deny list.</help>
+        <grid_view>
+            <width>6em</width>
+            <type>boolean</type>
+            <formatter>rowtoggle</formatter>
+        </grid_view>
+    </field>
+    <field>
+        <id>denylist.group</id>
+        <label>Group</label>
+        <type>text</type>
+        <help>Blocking group this list belongs to. Clients are mapped to groups under "Client Groups"; the "default" group applies to every client unless overridden.</help>
+        <grid_view/>
+    </field>
+    <field>
+        <id>denylist.source</id>
+        <label>Source</label>
+        <type>text</type>
+        <help>A https URL to a hosts/domain list, a local file path, or a single inline entry (e.g. ads.example.com).</help>
+        <grid_view/>
+    </field>
+    <field>
+        <id>denylist.description</id>
+        <label>Description</label>
+        <type>text</type>
+        <help>Optional description for your reference.</help>
+        <grid_view/>
+    </field>
+</form>
